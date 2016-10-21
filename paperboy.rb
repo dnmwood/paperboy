@@ -1,36 +1,45 @@
 class PaperBoy
 
-  attr_reader
+  attr_reader :name, :experience, :earnings
 
-  def initialize(name, experience, earnings)
+  def initialize(name)
     @name       = name
-    @experience = experience
-    @earnings   = earnings
-  end
+    @experience = 0
+    @earnings   = 0
+end
 
   def quota
-   @experience / 2 + 50
-  end
+
+      return (experience/2) + 50
+end
 
   def deliver(start_address, end_address)
-    #calculate number of houses
-    number_of_houses = end_address - start_address
-    #calculate money made
-    money_made = number_of_houses * 0.25
-    #increase experience by number of Houses
-    @experience += number_of_houses
-    #increase total earnings by money made
-    @earnings += money_made
-  end
 
-  def report
+    number_of_houses = end_address-start_address
+
+    if quota < number_of_houses
+    earnings = ((number_of_houses-quota)*0.50) + (quota * 0.25)
+
+    elsif quota > number_of_houses
+      earnings = ((number_of_houses*0.25) - 2)
+
+    else
+      earnings = number_of_houses*0.25
+
+
+    end
+    @earnings += earnings
+    @experiences += number_of_houses
+end
+
+def report
+    return "#{name.upcase} has deliverd #{@experience} papers and has earned $#{@earnings}."
   end
 end
 
-timmy = PaperBoy.new("Timmy", 80, 1)
-lucas = PaperBoy.new("Lucas", 70, 1)
-ben = PaperBoy.new("Ben", 60, 1)
 
-puts timmy.quota
-puts lucas.quota
-puts ben.quota
+timmy = PaperBoy.new("Timmy")
+
+timmy.deliver(15, 200)
+
+puts timmy.report
